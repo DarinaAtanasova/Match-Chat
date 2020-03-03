@@ -1,0 +1,22 @@
+{
+  "name": "match-chat",
+  "version": "1.0.0",
+  "description": "Web application for matching users with similar interests",
+  "main": "database.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DarinaAtanasova/Match-Chat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DarinaAtanasova/Match-Chat/issues"
+  },
+  "homepage": "https://github.com/DarinaAtanasova/Match-Chat#readme",
+  "dependencies": {
+    "mongodb": "^3.5.4"
+  }
+}
