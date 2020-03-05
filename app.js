@@ -10,12 +10,20 @@ MongoClient.connect(connectionURL, { useUnifiedTopology: true }, (error, databas
 
     var db = database.db("match-and-chat")
 
-    db.collection("users").findOne({}, (error, res) => {
+    db.collection('users').findOne({ name: 'Madi'}, (error, user) => {
         if (error) {
-            throw error
+            console.log('Unable to find matches')
         }
 
-        console.log(res)
-        database.close()
+        db.collection('users').find({ birthday: user.birthday }).toArray((error, users) => {
+            if (error) {
+                console.log('No user matches this birthday!')
+            }
+
+            console.log('Users matching with the same birthday are: ')
+            users.forEach(user => {
+                console.log(user.name)
+            });
+        })
     })
 })
