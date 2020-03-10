@@ -20,7 +20,7 @@ MongoClient.connect(connectionURL, { useUnifiedTopology: true }, (error, databas
                 console.log('No user matches this birthday!')
             }
 
-            console.log('Users matching with the same birthday are: ')
+            console.log('Users matching with birthday are: ')
             users.forEach(user => {
                 console.log(user.name)
             });
