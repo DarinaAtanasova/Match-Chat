@@ -1,2 +1,2 @@
-# Match-Chat
-Web application for matching users with similar interests
+# Match&Chat
+Web application for matching users with similar interests.
