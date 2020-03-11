@@ -64,6 +64,11 @@ MongoClient.connect(connectionURL, { useUnifiedTopology: true }, (error, client)
             name: 'Porsha',
             birthday: new Date("1989-04-20"),
             interests: ['boxing', 'modeling', 'baking']
+        },
+        {
+            name: 'Johnny',
+            birthday: new Date("2006-09-13"),
+            interests: ['drama', 'bikes', 'glasses']
         }
     ], (error, result) => {
         if (error) {
