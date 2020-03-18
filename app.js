@@ -1,6 +1,8 @@
 const mongodb = require('mongodb')
 const MongoClient = mongodb.MongoClient
 
+ObjectID = require('mongodb').ObjectID
+
 const connectionURL = 'mongodb://127.0.0.1:27017'
 
 MongoClient.connect(connectionURL, { useUnifiedTopology: true }, async (error, database) => {
@@ -16,22 +18,26 @@ MongoClient.connect(connectionURL, { useUnifiedTopology: true }, async (error, d
             throw error
         }
         
-        users.forEach(user => {  
-            db.collection('users').aggregate([
-                {
-                    $match: {
-                        birthday: user.birthday
-                    }
-                }
-            ]).toArray().then(allMatches => {
-                allMatches.forEach(matchedUser => {
-                    if (matchedUser.name !== user.name) {
-                        console.log('User ' + user.name + ' matched with: ' + matchedUser.name)
-                    }
-                });
-            })
+        users.forEach(user => {
+            matchByBirthday(user)
         });
     })
+
+    const matchByBirthday = (user) => {  
+        db.collection('users').aggregate([
+            {
+                $match: {
+                    birthday: user.birthday
+                }
+            }
+        ]).toArray().then(allMatches => {
+            allMatches.forEach(matchedUser => {
+                if (!matchedUser._id.equals(user._id)) {
+                    console.log('User ' + user.name + ' matched by birthday with: ' + matchedUser.name)
+                }
+            });
+        })
+    }
     
     // Match user with common interests
     const matchByInterest = (user, interest) => {
