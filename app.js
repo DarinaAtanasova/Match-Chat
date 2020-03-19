@@ -42,9 +42,12 @@ MongoClient.connect(connectionURL, { useUnifiedTopology: true }, async (error, d
     }
     
     // Match user with common interests
-    function matchByInterest (interest, callback) {
+    function matchByInterest (user, interest, callback) {
         db.collection('users').find(
             {
+                _id: {
+                    $ne: user._id 
+                },
                 interests: {
                     $elemMatch: {
                         $eq: interest
@@ -53,36 +56,30 @@ MongoClient.connect(connectionURL, { useUnifiedTopology: true }, async (error, d
             }
         ).toArray((error, result) => {
             if (error) {
-                throw error
+                callback(error, undefined)
             }
             
-            return callback(undefined, result)
-            // result.forEach(match => {
-            //     if (user.name !== match.name) {
-            //         console.log(user.name + ' matched with ' + match.name)                    
-            //         console.log('They are both interest in ' + interest)
-            //         console.log()
-            //     }
-            // });
+            callback(undefined, result)
         })
     }
 
     const allInterests = (user) => {
         let allMatchedUsers = []
-        var match;
         user.interests.forEach(interest => {
-            matchByInterest(interest, function(error, result){
-                match = result
-                match.forEach(m => {
-                    allMatchedUsers.push(m)
+            matchByInterest(user, interest, function(error, result){
+                result.forEach(m => {
+                    // Uncomment below for getting matched user ids in string format
+                    // allMatchedUsers.push(m._id.toString())
+                    allMatchedUsers.push(m.name)
                 });
             })
         });
 
         setTimeout(() => {
+            console.log(user.name + ' matched with: ')
             console.log(allMatchedUsers)
-        }, 3000)
-        // return allMatchedUsers
+            console.log('Best match with: ' + findBestMatch(allMatchedUsers))
+        }, 2000)
     }
 
     db.collection('users').find({}).toArray((error, users) => {
@@ -90,7 +87,9 @@ MongoClient.connect(connectionURL, { useUnifiedTopology: true }, async (error, d
             throw error
         }
 
-        allInterests(users[0])
+        users.forEach(user => {
+            allInterests(user)
+        });
         
     })
 
