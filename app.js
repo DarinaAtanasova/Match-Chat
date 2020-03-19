@@ -90,7 +90,7 @@ MongoClient.connect(connectionURL, { useUnifiedTopology: true }, async (error, d
             throw error
         }
 
-        console.log(allInterests(users[0]))
+        allInterests(users[0])
         
     })
 
