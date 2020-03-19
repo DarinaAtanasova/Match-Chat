@@ -5,6 +5,10 @@ const findBestMatch = function(array) {
             result.push(user)
         }
     });
+    
+    if (result.length == 0) {
+        return array[0];
+    }
     return result
 }
 
