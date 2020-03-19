@@ -42,7 +42,7 @@ MongoClient.connect(connectionURL, { useUnifiedTopology: true }, async (error, d
     }
     
     // Match user with common interests
-    const matchByInterest = (user, interest) => {
+    function matchByInterest (interest, callback) {
         db.collection('users').find(
             {
                 interests: {
@@ -56,14 +56,33 @@ MongoClient.connect(connectionURL, { useUnifiedTopology: true }, async (error, d
                 throw error
             }
             
-            result.forEach(match => {
-                if (user.name !== match.name) {
-                    console.log(user.name + ' matched with ' + match.name)                    
-                    console.log('They are both interest in ' + interest)
-                    console.log()
-                }
-            });
+            return callback(undefined, result)
+            // result.forEach(match => {
+            //     if (user.name !== match.name) {
+            //         console.log(user.name + ' matched with ' + match.name)                    
+            //         console.log('They are both interest in ' + interest)
+            //         console.log()
+            //     }
+            // });
         })
+    }
+
+    const allInterests = (user) => {
+        let allMatchedUsers = []
+        var match;
+        user.interests.forEach(interest => {
+            matchByInterest(interest, function(error, result){
+                match = result
+                match.forEach(m => {
+                    allMatchedUsers.push(m)
+                });
+            })
+        });
+
+        setTimeout(() => {
+            console.log(allMatchedUsers)
+        }, 3000)
+        // return allMatchedUsers
     }
 
     db.collection('users').find({}).toArray((error, users) => {
@@ -71,10 +90,8 @@ MongoClient.connect(connectionURL, { useUnifiedTopology: true }, async (error, d
             throw error
         }
 
-        users.forEach(user => {
-            // Match current user with someone who has the 1st interest as user
-            matchByInterest(user, user.interests[0])
-        });
+        console.log(allInterests(users[0]))
+        
     })
 
     setTimeout(() => {
