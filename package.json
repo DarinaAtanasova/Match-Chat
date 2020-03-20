@@ -18,5 +18,8 @@
   "homepage": "https://github.com/DarinaAtanasova/Match-Chat#readme",
   "dependencies": {
     "mongodb": "^3.5.4"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0"
   }
 }
