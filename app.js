@@ -14,17 +14,6 @@ MongoClient.connect(connectionURL, { useUnifiedTopology: true }, async (error, d
 
     var db = database.db("match-and-chat")
 
-    // Match users with the same birthdays
-    db.collection('users').find({}).toArray((error, users) => {
-        if (error) {
-            throw error
-        }
-        
-        users.forEach(user => {
-            matchByBirthday(user)
-        });
-    })
-
     const matchByBirthday = (user) => {  
         db.collection('users').aggregate([
             {
@@ -58,7 +47,7 @@ MongoClient.connect(connectionURL, { useUnifiedTopology: true }, async (error, d
             if (error) {
                 callback(error, undefined)
             }
-            
+
             callback(undefined, result)
         })
     }
@@ -88,6 +77,7 @@ MongoClient.connect(connectionURL, { useUnifiedTopology: true }, async (error, d
         }
 
         users.forEach(user => {
+            matchByBirthday(user)
             allInterests(user)
         });
         
