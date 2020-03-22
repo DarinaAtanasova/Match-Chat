@@ -7,7 +7,7 @@ const findBestMatch = require('./utils/findBest.js')
 
 const connectionURL = 'mongodb://127.0.0.1:27017'
 
-MongoClient.connect(connectionURL, { useUnifiedTopology: true }, async (error, database) => {
+MongoClient.connect(connectionURL, { useUnifiedTopology: true }, (error, database) => {
     if (error) {
         throw error
     }
