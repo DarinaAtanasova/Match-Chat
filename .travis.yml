@@ -9,6 +9,9 @@ install:
 script:
   - npm test
 
+services: 
+  - mongodb
+
 cache:
   directories:
     - "node_modules"
