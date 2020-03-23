@@ -23,7 +23,7 @@ MongoClient.connect(connectionURL, { useUnifiedTopology: true }, (error, databas
             }
         ]).toArray().then(allMatches => {
             allMatches.forEach(matchedUser => {
-                if (!matchedUser._id.equals(user._id)) {
+                if (matchedUser._id !== user._id){
                     console.log('User ' + user.name + ' matched by birthday with: ' + matchedUser.name)
                 }
             });
