@@ -27,7 +27,7 @@ describe('match birthday', () => {
                 }
             ]).toArray().then(allMatches => {
                 allMatches.forEach(matchedUser => {
-                    if (!matchedUser._id.equals(user._id)) {
+                    if (matchedUser._id !== user._id) {
                         callback(undefined, matchedUser)
                     }
                 });
@@ -35,7 +35,7 @@ describe('match birthday', () => {
         }
 
         user_Madi = {
-            _id: ObjectID("5e67ba85237c1e40a34f7f93"),
+            _id: 1,
             name: 'Madi',
             birthday: new Date("2002-08-25"),
             interests: ['books', 'movies', 'tv']
