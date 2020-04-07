@@ -3,7 +3,7 @@ const MongoClient = mongodb.MongoClient
 
 ObjectID = mongodb.ObjectID
 
-const findBestMatch = require('./utils/findBest.js')
+const findBestMatch = require('./findBest.js')
 
 const connectionURL = 'mongodb://127.0.0.1:27017'
 
