@@ -4,6 +4,8 @@
   "description": "Web application for matching users with similar interests",
   "main": "database.js",
   "scripts": {
+    "start": "node src/app",
+    "dev": "nodemon -e js,hbs,css src/app",
     "test": "jest"
   },
   "repository": {
