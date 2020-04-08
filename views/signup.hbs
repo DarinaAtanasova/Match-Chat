@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Match&Chat</a>
+            </div>
+        
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/chat">Chat</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="/signup">Sign up <i class="fas fa-user-plus"></i></a></li>
+                <li><a href="/login">Login <i class="fa fa-user"></i></a></li>
+            </ul>
+            </div>
+        </div>
+    </nav>
+    
+
+    <div class="signup">
+        <form>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><span><i class="far fa-envelope"></i></span></span>
+                    <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><span><i class="fas fa-key"></i></span></span>
+                    <input type="password" class="form-control" id="psw" placeholder="Enter password" minlength="6" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><span><i class="far fa-user"></i></span></span>
+                    <input type="text" class="form-control" id="username" placeholder="Enter username" minlength="4" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="date">Birthday</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><span><i class="fas fa-birthday-cake"></i></span></span>
+                    <input type="date" class="form-control" id="birthday" placeholder="Enter birthday" required>
+                </div>
+            </div>
+            <div class="form-group" style="text-align: center;"> 
+                <input class="btn btn-default" type="submit" value="Register now!">
+            </div>
+        </form>
+    </div>
+
+{{!-- Set up font awesome kit --}}
+<script src="https://kit.fontawesome.com/27610e4d72.js" crossorigin="anonymous"></script>
+</body>
+</html>
