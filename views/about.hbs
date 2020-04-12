@@ -27,10 +27,19 @@
                 <li class="active"><a href="/about">About</a></li>
                 <li><a href="/chat">Chat</a></li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="/signup">Sign up <i class="fas fa-user-plus"></i></a></li>
-                <li><a href="/login">Login <i class="fa fa-user"></i></a></li>
-            </ul>
+            {{#if id}}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/logout">Log out</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/profile">Profile <i class="fas fa-user-edit"></i></a></li>
+                </ul>
+            {{else}}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/signup">Sign up <i class="fas fa-user-plus"></i></a></li>
+                    <li><a href="/login">Login <i class="fa fa-user"></i></a></li>
+                </ul>
+            {{/if}}
             </div>
         </div>
     </nav>
