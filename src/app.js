@@ -1,9 +1,9 @@
 const express = require('express');
 const path = require('path')
-const hbs = require('hbs')
+
 require('../database/database')
+
 var User = require('../database/models/user.js');
-const bcrypt = require('bcryptjs');
 
 const app = express();
 
@@ -38,16 +38,29 @@ app.get('/signup', (req, res) => {
 app.post('/signup', async (req, res) => {
     var user = new User(req.body);
 
-    user.save().then(() => {
+    try {
+        await user.save();
         res.status(201);
+        // TO DO: Redirecting to user profile route
         res.redirect('/');
-    }).catch(() => {
+    } catch (e) {
         res.status(400).send(e);
-    })
+    }
 })
 
 app.get('/login', (req, res) => {
     res.render('login')
+})
+
+app.post('/login', async (req, res) => {
+    try {
+        const user = await User.findByCredentials(req.body.email, req.body.password);
+        console.log(user.username + " has succesfully logged in!");
+        // TO DO: Redirecting to user profile route
+        res.redirect('/');
+    } catch (e) {
+        res.status(400).send();
+    }
 })
 
 app.listen(PORT, () => console.log('Server started on port ' + PORT));
