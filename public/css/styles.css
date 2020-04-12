@@ -27,6 +27,24 @@ body {
     border-radius: 10px;
 }
 
+.profile {
+    margin: 25px 300px;        
+    padding: 60px 290px;
+    line-height: 3;
+    background: rgb(28, 58, 107);
+    border-radius: 10px;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+img {
+    border-radius: 10px;
+    margin-bottom: 18px;
+    width: 250px;
+    height: 250px;
+}
+
 .form-group {
     width: 50%;
     margin: 20px auto;

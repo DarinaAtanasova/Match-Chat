@@ -41,8 +41,7 @@ app.post('/signup', async (req, res) => {
     try {
         await user.save();
         res.status(201);
-        // TO DO: Redirecting to user profile route
-        res.redirect('/');
+        res.redirect('/profile');
     } catch (e) {
         res.status(400).send(e);
     }
@@ -56,11 +55,14 @@ app.post('/login', async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password);
         console.log(user.username + " has succesfully logged in!");
-        // TO DO: Redirecting to user profile route
-        res.redirect('/');
+        res.redirect('/profile');
     } catch (e) {
         res.status(400).send();
     }
+})
+
+app.get('/profile', (req, res) => {
+    res.render('profile')
 })
 
 app.listen(PORT, () => console.log('Server started on port ' + PORT));
