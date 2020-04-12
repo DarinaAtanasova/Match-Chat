@@ -21,6 +21,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
+    "express-session": "^1.17.0",
     "hbs": "^4.1.1",
     "mongodb": "^3.5.4",
     "mongoose": "^5.9.7",
