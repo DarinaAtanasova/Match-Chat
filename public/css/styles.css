@@ -27,28 +27,20 @@ body {
     border-radius: 10px;
 }
 
-.profile {
+.row {
     background: rgb(28, 58, 107);
-    margin: 20px 150px;
-    padding: 99px 120px;
+    padding: 30px;
     border-radius: 10px;
     color: white;
     font-size: 17px;
     line-height: 3;
 }
 
-.profile-elements {
-    text-align: left;
-    margin-right: auto;
-    float: right;
-}
-
-
 img {
     margin-left: auto;
     border-radius: 10px;
-    width: 200px;
-    height: 200px;
+    width: 175px;
+    height: 175px;
 }
 
 .form-group {
