@@ -43,6 +43,21 @@ img {
     height: 175px;
 }
 
+.chat {
+    background: rgb(23, 196, 248);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    color: black;
+    line-height: 2;
+    font-size: 16px; 
+}
+
+.link {
+    color: black;
+    text-decoration: underline;
+}
+
 .form-group {
     width: 50%;
     margin: 20px auto;

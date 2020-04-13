@@ -115,4 +115,15 @@ app.get('/logout', (req, res) => {
     })
 })
 
+app.get('/chat',(req, res) => {
+    const { userId } = req.session;
+    if (userId) {
+        res.render('chat', { id: userId });
+    }
+    else
+    {
+        res.render('chat');
+    }
+})
+
 app.listen(PORT, () => console.log('Server started on port ' + PORT));
