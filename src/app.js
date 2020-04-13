@@ -80,6 +80,7 @@ app.post('/login', async (req, res) => {
         req.session.userId = user._id;
         res.redirect('/profile');
     } catch (e) {
+        res.redirect('/login');
         res.status(400).send();
     }
 })
