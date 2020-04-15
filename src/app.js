@@ -3,6 +3,7 @@ const session = require('express-session');
 const socketio = require('socket.io');
 const path = require('path');
 const http = require('http');
+const formatMessage = require('../utils/formatMessage.js');
 
 require('../database/database');
 
@@ -120,28 +121,36 @@ app.get('/logout', (req, res) => {
     })
 })
 
-app.get('/chat',(req, res) => {
+var name = "";
+
+app.get('/chat', async (req, res) => {
     const { userId } = req.session;
     if (userId) {
+        var user = await User.findById(userId);
+        name = user.username;
         res.render('chat', { id: userId });
-        io.on('connection', socket => {
-            socket.emit('message', 'Welcome!');
-            
-            socket.broadcast.emit('message', 'User has joined!');
-
-            socket.on('disconnect', () => {
-                io.emit('User has left!');
-            })
-
-            socket.on('chatMessage', message => {
-                io.emit('message', message);
-            })
-        })
     }
     else
     {
         res.render('chat');
     }
+
+})
+
+io.on('connection', socket => {
+    socket.username = name
+    socket.emit('message', formatMessage("Bugs Bunny", 'Welcome!'));
+    
+    socket.broadcast.emit('message', formatMessage("Bugs Bunny",'User has joined!'));
+    
+    socket.on('chatMessage', message => {
+        io.emit('message', formatMessage(socket.username, message));
+    })
+
+    socket.on('disconnect', () => {
+        io.emit('message', formatMessage("Bugs Bunny", "User has disconnected"));
+    })
+    
 })
 
 server.listen(PORT, () => console.log('Server started on port ' + PORT));
