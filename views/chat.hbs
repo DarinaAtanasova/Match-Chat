@@ -45,14 +45,22 @@
     </nav>
     
     <div class="container">
-        <div class="chat">
             {{#if id}}
-                <div>Chat...</div>
+            <div id="chat">
+                <div id="chat-window">
+                    <div class="chat-messages"></div>
+                </div>
+                <form id="chat-form">
+                    <input id="message" type="text" placeholder="Enter message">
+                    <button id="send">Send</button>
+                </form>
+            </div>
             {{else}}
+            <div class="chat-message-not-logged">
                 <div>You have to be logged in to access the chat! Login <a class = "link" href = "/login">here</a></div>
                 <div>You don't have an account? Sign up <a class = "link" href = "/signup">here</a></div>
+            </div>  
             {{/if}}
-        </div>
     </div>
 
 {{!-- Set up font awesome kit --}}
