@@ -49,6 +49,7 @@ img {
     border: 1px solid #ddd;
     box-shadow: 1px 3px 5px rgba(0,0,0,0.05);
     border-radius: 2px;
+    border-radius: 10px;
 }
 
 #chat-window {
@@ -56,7 +57,7 @@ img {
     overflow: auto;
 }
 
-input #message {
+#message {
     padding: 10px 20px;
     box-sizing: border-box;
     background: #eee;
@@ -65,12 +66,10 @@ input #message {
     width: 100%;
     background: #fff;
     border-bottom: 1px solid #eee;
-    font-family: Nunito;
     font-size: 16px;
 }
     
-button #send {
-    background: #575ed8;
+#send {
     color: #fff;
     font-size: 18px;
     border: 0;
@@ -78,11 +77,13 @@ button #send {
     width: 100%;
     border-radius: 0 0 2px 2px;
 }
-#output p {
-    padding: 14px 0px;
-    margin: 0 20px;
-    border-bottom: 1px solid #e9e9e9;
-    color: #555;
+
+.chat-messages {
+    padding: 10px;
+}
+
+.chat-messages .message p {
+    font-size: 19px;
 }
 
 .chat-message-not-logged {
