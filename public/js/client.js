@@ -1,30 +1,33 @@
 const socket = io();
 
 const chatForm = document.getElementById('chat-form');
-var chatMessage = document.querySelector('.chat-messages');
-var username = document.querySelector('#username');
+var chatWindow = document.getElementById('chat-window');
 
 socket.on('message', message => {
     console.log(message);
     outputMessage(message);
 
-    // chatMessage.scrollTop = chatMessage.scrollHeight;
+    chatWindow.scrollTop = chatWindow.scrollHeight;
 })
 
 chatForm.addEventListener('submit', e => {
     e.preventDefault();
     
     const msg = e.target.elements.message.value;
+
+    if (msg !== '')
+    {
+        socket.emit('chatMessage', msg);
+        
+        e.target.elements.message.value = '';
+        e.target.elements.message.focus();
+    }
     
-    socket.emit('chatMessage', msg);
-    
-    e.target.elements.message.value = '';
-    e.target.elements.message.focus();
 })
 
 function outputMessage (message) {
     const div = document.createElement('div');
     div.classList.add('message');
-    div.innerHTML = `<p> ${message.name}:  ${message.text}</p>`;
+    div.innerHTML = `<p> <strong>${message.name}:</strong>  ${message.text}</p>`;
     document.querySelector('.chat-messages').appendChild(div);
 }

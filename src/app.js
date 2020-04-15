@@ -139,16 +139,16 @@ app.get('/chat', async (req, res) => {
 
 io.on('connection', socket => {
     socket.username = name
-    socket.emit('message', formatMessage("Bugs Bunny", 'Welcome!'));
+    socket.emit('message', formatMessage("!Bugs Bunny", 'Welcome!'));
     
-    socket.broadcast.emit('message', formatMessage("Bugs Bunny",'User has joined!'));
+    socket.broadcast.emit('message', formatMessage("!Bugs Bunny",'User has joined!'));
     
     socket.on('chatMessage', message => {
         io.emit('message', formatMessage(socket.username, message));
     })
 
     socket.on('disconnect', () => {
-        io.emit('message', formatMessage("Bugs Bunny", "User has disconnected"));
+        io.emit('message', formatMessage("!Bugs Bunny", "User has disconnected"));
     })
     
 })
