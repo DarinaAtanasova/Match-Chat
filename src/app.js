@@ -1,12 +1,16 @@
 const express = require('express');
 const session = require('express-session');
+const socketio = require('socket.io');
 const path = require('path');
+const http = require('http');
 
 require('../database/database');
 
 var User = require('../database/models/user.js');
 
 const app = express();
+const server = http.createServer(app);
+const io = socketio(server);
 
 const PORT = 5000;
 
@@ -120,6 +124,9 @@ app.get('/chat',(req, res) => {
     const { userId } = req.session;
     if (userId) {
         res.render('chat', { id: userId });
+        io.on('connection', socket => {
+            console.log("New Web socket connection");
+        })
     }
     else
     {
@@ -127,4 +134,4 @@ app.get('/chat',(req, res) => {
     }
 })
 
-app.listen(PORT, () => console.log('Server started on port ' + PORT));
+server.listen(PORT, () => console.log('Server started on port ' + PORT));
