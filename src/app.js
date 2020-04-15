@@ -125,7 +125,17 @@ app.get('/chat',(req, res) => {
     if (userId) {
         res.render('chat', { id: userId });
         io.on('connection', socket => {
-            console.log("New Web socket connection");
+            socket.emit('message', 'Welcome!');
+            
+            socket.broadcast.emit('message', 'User has joined!');
+
+            socket.on('disconnect', () => {
+                io.emit('User has left!');
+            })
+
+            socket.on('chatMessage', message => {
+                io.emit('message', message);
+            })
         })
     }
     else
