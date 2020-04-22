@@ -1,3 +1,7 @@
+::selection {
+    background-color: #b9f0e6;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
 }
@@ -27,20 +31,17 @@ body {
     border-radius: 10px;
 }
 
-.row {
+.row{
     background: rgb(28, 58, 107);
     padding: 30px;
+    margin: 0 auto;
     border-radius: 10px;
     color: white;
     font-size: 17px;
     line-height: 3;
-}
-
-img {
-    margin-left: auto;
-    border-radius: 10px;
-    width: 175px;
-    height: 175px;
+    max-width: 80%;
+    height: auto;
+    box-sizing: border-box;
 }
 
 #chat {

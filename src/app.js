@@ -3,6 +3,8 @@ const session = require('express-session');
 const socketio = require('socket.io');
 const path = require('path');
 const http = require('http');
+const moment = require('moment');
+
 const formatMessage = require('../utils/formatMessage.js');
 
 require('../database/database');
@@ -107,7 +109,7 @@ app.get('/profile', async (req, res) => {
         res.render('profile', {
             username: user.username,
             email: user.email,
-            birthday: user.birthday
+            birthday: moment(user.birthday).format('DD-MM-YYYY')
         });
     }
     
