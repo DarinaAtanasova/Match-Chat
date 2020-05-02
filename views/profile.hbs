@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="/css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
@@ -40,7 +41,11 @@
         <div class="row">
             <div class="col-xs-12 col-md-6">
                 <a href="#" class="thumbnail">
-                    <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png">
+                    {{#if file}}
+                        <img src="{{file}}">
+                    {{else}}
+                        <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png">
+                    {{/if}}
                 </a>
             </div>
             <div class="col-xs-12 col-md-6">
@@ -51,8 +56,25 @@
         </div>
     </div>
 
+    <div class="container">
+        <form action="/uploads" method="POST" enctype="multipart/form-data">
+            <div class="file-field input-field">    
+                <div class="btn grey">
+                    <span>File</span>
+                    <input name = "profilePic" type="file">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text">
+                </div>
+            </div>
+            <button type="submit" class="btn">Submit</button>
+        </form>        
+    </div>
+
 
 {{!-- Set up font awesome kit --}}
 <script src="https://kit.fontawesome.com/27610e4d72.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>

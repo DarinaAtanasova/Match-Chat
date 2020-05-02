@@ -4,11 +4,29 @@ const socketio = require('socket.io');
 const path = require('path');
 const http = require('http');
 const moment = require('moment');
+const multer = require('multer');
+var base64Img = require('base64-img');
+
+const storage = multer.diskStorage({
+    destination: './uploads/',
+    filename: function(req, file, callback) {
+        callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+})
+
+const checkFileType = require('../utils/checkFileType.js');
+
+const upload = multer({
+    storage: storage,
+    limits:{fileSize: 1000000},
+    fileFilter: function(req, file, callback) {
+        checkFileType(file, callback);
+    }
+}).single('profilePic');
 
 const formatMessage = require('../utils/formatMessage.js');
 
 require('../database/database');
-
 var User = require('../database/models/user.js');
 
 const app = express();
@@ -95,6 +113,33 @@ app.post('/login', async (req, res) => {
         res.redirect('/login');
         res.status(400).send();
     }
+})
+
+app.post('/uploads', async(req, res) => {
+    const { userId } = req.session;
+    var user = await User.findById(userId);
+    upload(req, res, (err) => {
+        if (err){
+            res.send('Error uploading');
+        }
+        else {
+            if (req.file == undefined) {
+                res.render('profile', {
+                    username: user.username,
+                    email: user.email,
+                    birthday: moment(user.birthday).format('DD-MM-YYYY')
+                });
+            }
+            else {
+                res.render('profile', {
+                    username: user.username,
+                    email: user.email,
+                    birthday: moment(user.birthday).format('DD-MM-YYYY'),
+                    file: base64Img.base64Sync(`./uploads/${req.file.filename}`)
+                })
+            }
+        }
+    })
 })
 
 app.get('/profile', async (req, res) => {
