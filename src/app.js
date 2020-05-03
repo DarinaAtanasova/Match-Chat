@@ -6,6 +6,10 @@ const http = require('http');
 const moment = require('moment');
 const multer = require('multer');
 var base64Img = require('base64-img');
+const checkFileType = require('../utils/checkFileType.js');
+const formatMessage = require('../utils/formatMessage.js');
+require('../database/database');
+var User = require('../database/models/user.js');
 
 const storage = multer.diskStorage({
     destination: './uploads/',
@@ -14,7 +18,6 @@ const storage = multer.diskStorage({
     }
 })
 
-const checkFileType = require('../utils/checkFileType.js');
 
 const upload = multer({
     storage: storage,
@@ -24,10 +27,6 @@ const upload = multer({
     }
 }).single('profilePic');
 
-const formatMessage = require('../utils/formatMessage.js');
-
-require('../database/database');
-var User = require('../database/models/user.js');
 
 const app = express();
 const server = http.createServer(app);
@@ -82,21 +81,16 @@ app.get('/signup', (req, res) => {
 })
 
 app.post('/signup', async (req, res) => {
+    var user = new User(req.body);
 
-    await User.findOne({ email: req.body.email }).then(() => {
-        res.redirect('/signup');
-    }).catch(async () => {
-        var user = new User(req.body);
-    
-        try {
-            await user.save();
-            res.status(201);
-            req.session.userId = user._id;
-            res.redirect('/profile');
-        } catch (e) {
-            res.status(400).send(e);
-        }
-    })
+    try {
+        await user.save();
+        res.status(201);
+        req.session.userId = user._id;
+        res.redirect('/profile');
+    } catch (e) {
+        res.status(400).send(e);
+    }
 });
         
 app.get('/login', (req, res) => {
