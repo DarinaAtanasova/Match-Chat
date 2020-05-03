@@ -64,21 +64,16 @@ app.get('/signup', (req, res) => {
 })
 
 app.post('/signup', async (req, res) => {
+    var user = new User(req.body);
 
-    await User.findOne({ email: req.body.email }).then(() => {
-        res.redirect('/signup');
-    }).catch(async () => {
-        var user = new User(req.body);
-    
-        try {
-            await user.save();
-            res.status(201);
-            req.session.userId = user._id;
-            res.redirect('/profile');
-        } catch (e) {
-            res.status(400).send(e);
-        }
-    })
+    try {
+        await user.save();
+        res.status(201);
+        req.session.userId = user._id;
+        res.redirect('/profile');
+    } catch (e) {
+        res.status(400).send(e);
+    }
 });
         
 app.get('/login', (req, res) => {
