@@ -8,6 +8,8 @@ const multer = require('multer');
 var base64Img = require('base64-img');
 const checkFileType = require('../utils/checkFileType.js');
 const formatMessage = require('../utils/formatMessage.js');
+const matchByBirthday = require('../utils/matchByBirthday');
+
 require('../database/database');
 var User = require('../database/models/user.js');
 
@@ -155,10 +157,16 @@ app.get('/profile', async (req, res) => {
     
 })
 
-app.get('/matches', (req, res) => {
+app.get('/matches', async (req, res) => {
     const { userId } = req.session;
     if (userId) {
-        res.render('view-matches');
+        let user = await User.findById(userId);
+        matchByBirthday(user).then((allMatches) => {
+            console.log(allMatches);
+            res.render('view-matches', {
+                matches: allMatches
+            })
+        })
     }
 })
 
