@@ -29,7 +29,7 @@
                     <li class="active"><a href="/view-matches">My matches</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/logout">Log out <i class="fas fa-sign-out-alt"></i></a></li>
+                    <li><a href="/logout">Log out <i class="fas fa-sign-out-alt"></i></a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/profile">Profile <i class="fas fa-user-edit"></i></a></li>
@@ -37,6 +37,12 @@
             </div>
         </div>
     </nav>
+
+    {{#if matches}}
+        {{#each matches}}
+            <p>{{this.username}}</p>
+        {{/each}}
+    {{/if}}
 
 <script src="https://kit.fontawesome.com/27610e4d72.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
