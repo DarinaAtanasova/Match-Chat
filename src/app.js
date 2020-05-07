@@ -146,6 +146,7 @@ app.get('/profile', async (req, res) => {
     else
     {
         res.render('profile', {
+            id: userId,
             username: user.username,
             email: user.email,
             birthday: moment(user.birthday).format('DD-MM-YYYY')
@@ -153,6 +154,14 @@ app.get('/profile', async (req, res) => {
     }
     
 })
+
+app.get('/matches', (req, res) => {
+    const { userId } = req.session;
+    if (userId) {
+        res.render('view-matches');
+    }
+})
+
 
 app.get('/logout', (req, res) => {
     req.session.destroy(err => {
