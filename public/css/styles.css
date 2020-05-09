@@ -31,8 +31,8 @@ body {
     border-radius: 10px;
 }
 
-.row{
-    background: rgb(28, 58, 107);
+.profile {
+    background: rgba(28, 58, 107, 0.7);
     padding: 30px;
     margin: 0 auto;
     border-radius: 10px;
@@ -41,6 +41,17 @@ body {
     max-width: 80%;
     height: auto;
     box-sizing: border-box;
+}
+
+#match {
+    position: relative;
+    top: 0;
+    transition: top ease 0.2s;
+}
+
+#match:hover {
+    cursor: pointer;
+    top: -5px;
 }
 
 .user-info {

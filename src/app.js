@@ -162,7 +162,6 @@ app.get('/matches', async (req, res) => {
     if (userId) {
         let user = await User.findById(userId);
         matchByBirthday(user).then((allMatches) => {
-            console.log(allMatches);
             res.render('view-matches', {
                 matches: allMatches
             })

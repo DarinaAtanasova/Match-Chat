@@ -7,6 +7,18 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background: url("https://images.pexels.com/photos/207130/pexels-photo-207130.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+            background-size: cover;
+        }
+
+        .thumbnail {
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+    </style>
+
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -38,11 +50,23 @@
         </div>
     </nav>
 
-    {{#if matches}}
-        {{#each matches}}
-            <p>{{this.username}}</p>
-        {{/each}}
-    {{/if}}
+    <div class="container">
+        <div class="row">
+        {{#if matches}}
+            {{#each matches}}
+                    <div class="col-sm-6 col-md-3">
+                        <div class="thumbnail" id="match">
+                            <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" alt="profile-pic">
+                            <h2>{{this.username}}</h2>
+                            <a href="#" class="btn btn-default" role="button"><i class="far fa-thumbs-up"></i></a>
+                            <a href="#" class="btn btn-primary" role="button">View profile</a>
+                        </div>
+                    </div>
+            {{/each}}
+        {{/if}}
+        </div>
+    </div>
+
 
 <script src="https://kit.fontawesome.com/27610e4d72.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
