@@ -151,10 +151,19 @@ app.get('/profile', async (req, res) => {
             id: userId,
             username: user.username,
             email: user.email,
-            birthday: moment(user.birthday).format('DD-MM-YYYY')
+            birthday: moment(user.birthday).format('DD-MM-YYYY'),
+            interests: user.interests
         });
     }
     
+})
+
+app.post('/profile', async (req, res) => {
+    const { userId } = req.session;
+    let user = await User.findById(userId);
+    user.interests = req.body.profile;
+    user.save();
+    res.redirect('/profile');
 })
 
 app.get('/matches', async (req, res) => {
