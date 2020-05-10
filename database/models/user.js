@@ -8,6 +8,7 @@ var userSchema = new Schema({
     password: String,
     username: String,
     birthday: Date,
+    profilePic: String,
     interests: [{
         type: String
     }]

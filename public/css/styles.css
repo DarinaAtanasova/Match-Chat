@@ -38,10 +38,13 @@ body {
     border-radius: 10px;
     color: white;
     font-size: 17px;
-    line-height: 3;
     max-width: 80%;
     height: auto;
     box-sizing: border-box;
+}
+
+.user-info {
+    line-height: 3;
 }
 
 #chat {

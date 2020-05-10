@@ -4,12 +4,28 @@ const socketio = require('socket.io');
 const path = require('path');
 const http = require('http');
 const moment = require('moment');
-
+const multer = require('multer');
+var base64Img = require('base64-img');
+const checkFileType = require('../utils/checkFileType.js');
 const formatMessage = require('../utils/formatMessage.js');
-
 require('../database/database');
-
 var User = require('../database/models/user.js');
+
+const storage = multer.diskStorage({
+    destination: './uploads/',
+    filename: function(req, file, callback) {
+        callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+})
+
+const upload = multer({
+    storage: storage,
+    limits:{fileSize: 1000000},
+    fileFilter: function(req, file, callback) {
+        checkFileType(file, callback);
+    }
+}).single('profilePic');
+
 
 const app = express();
 const server = http.createServer(app);
@@ -64,7 +80,13 @@ app.get('/signup', (req, res) => {
 })
 
 app.post('/signup', async (req, res) => {
-    var user = new User(req.body);
+    var user = new User({
+        password: req.body.password, 
+        email: req.body.email, 
+        username: req.body.username, 
+        birthday: req.body.birthday,
+        profilePic: "./avatar.png"
+    });
 
     try {
         await user.save();
@@ -92,6 +114,38 @@ app.post('/login', async (req, res) => {
     }
 })
 
+app.post('/uploads', async(req, res) => {
+    const { userId } = req.session;
+    var user = await User.findById(userId);
+    upload(req, res, (err) => {
+        if (err){
+            res.send('Error uploading');
+        }
+        else {
+            if (req.file == undefined) {
+                res.render('profile', {
+                    username: user.username,
+                    email: user.email,
+                    birthday: moment(user.birthday).format('DD-MM-YYYY')
+                });
+            }
+            else {
+                User.findById(user._id, function (err, doc) {
+                    doc.profilePic = `./uploads/${req.file.filename}`;
+                    doc.save();
+                  });
+                  
+                res.render('profile', {
+                    username: user.username,
+                    email: user.email,
+                    birthday: moment(user.birthday).format('DD-MM-YYYY'),
+                    profilePic: base64Img.base64Sync(`./uploads/${req.file.filename}`)
+                })
+            }
+        }
+    })
+})
+
 app.get('/profile', async (req, res) => {
     const { userId } = req.session;
     var user = await User.findById(userId);
@@ -104,7 +158,8 @@ app.get('/profile', async (req, res) => {
         res.render('profile', {
             username: user.username,
             email: user.email,
-            birthday: moment(user.birthday).format('DD-MM-YYYY')
+            birthday: moment(user.birthday).format('DD-MM-YYYY'),
+            profilePic: base64Img.base64Sync(user.profilePic)
         });
     }
     
