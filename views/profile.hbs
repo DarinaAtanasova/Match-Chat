@@ -50,11 +50,7 @@
         <div class="row profile">
             <div class="col-xs-12 col-md-6">
                 <a href="#" class="thumbnail">
-                    {{#if file}}
-                        <img src="{{file}}">
-                    {{else}}
-                        <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png">
-                    {{/if}}
+                    <img src = {{profilePic}}>
                 </a>
                 <form action="/uploads" method="POST" enctype="multipart/form-data">
                     <input type="file" name="profilePic">
@@ -92,6 +88,17 @@
         elem.remove();
         document.getElementById('edit').innerHTML = 
         `<select id="multiple" name="profile" multiple>
+                <option value="Movies">Movies</option>
+                <option value="Books">Books</option>
+                <option value="TV">Television</option>
+                <option value="Music">Music</option>
+                <option value="Art">Art</option>
+                <option value="Painting">Painting</option>
+                <option value="Writing">Writing</option>
+                <option value="Gaming">Gaming</option>
+                <option value="Traveling">Traveling</option>
+                <option value="Sports">Sports</option>
+                <option value="Photography">Photography</option>
                 <option value="movies">Movies</option>
                 <option value="books">Books</option>
                 <option value="tv">Television</option>

@@ -20,7 +20,6 @@ const storage = multer.diskStorage({
     }
 })
 
-
 const upload = multer({
     storage: storage,
     limits:{fileSize: 1000000},
@@ -83,7 +82,13 @@ app.get('/signup', (req, res) => {
 })
 
 app.post('/signup', async (req, res) => {
-    var user = new User(req.body);
+    var user = new User({
+        password: req.body.password, 
+        email: req.body.email, 
+        username: req.body.username, 
+        birthday: req.body.birthday,
+        profilePic: "./avatar.png"
+    });
 
     try {
         await user.save();
@@ -127,11 +132,16 @@ app.post('/uploads', async(req, res) => {
                 });
             }
             else {
+                User.findById(user._id, function (err, doc) {
+                    doc.profilePic = `./uploads/${req.file.filename}`;
+                    doc.save();
+                  });
+                  
                 res.render('profile', {
                     username: user.username,
                     email: user.email,
                     birthday: moment(user.birthday).format('DD-MM-YYYY'),
-                    file: base64Img.base64Sync(`./uploads/${req.file.filename}`)
+                    profilePic: base64Img.base64Sync(`./uploads/${req.file.filename}`)
                 })
             }
         }
@@ -152,6 +162,7 @@ app.get('/profile', async (req, res) => {
             username: user.username,
             email: user.email,
             birthday: moment(user.birthday).format('DD-MM-YYYY'),
+            profilePic: base64Img.base64Sync(user.profilePic),
             interests: user.interests
         });
     }
@@ -171,6 +182,9 @@ app.get('/matches', async (req, res) => {
     if (userId) {
         let user = await User.findById(userId);
         matchByBirthday(user).then((allMatches) => {
+            allMatches.forEach(user => {
+                user.profilePic = base64Img.base64Sync(user.profilePic);
+            });
             res.render('view-matches', {
                 matches: allMatches
             })
