@@ -8,6 +8,8 @@ const multer = require('multer');
 var base64Img = require('base64-img');
 const checkFileType = require('../utils/checkFileType.js');
 const formatMessage = require('../utils/formatMessage.js');
+const matchByBirthday = require('../utils/matchByBirthday');
+
 require('../database/database');
 var User = require('../database/models/user.js');
 
@@ -156,14 +158,40 @@ app.get('/profile', async (req, res) => {
     else
     {
         res.render('profile', {
+            id: userId,
             username: user.username,
             email: user.email,
             birthday: moment(user.birthday).format('DD-MM-YYYY'),
-            profilePic: base64Img.base64Sync(user.profilePic)
+            profilePic: base64Img.base64Sync(user.profilePic),
+            interests: user.interests
         });
     }
     
 })
+
+app.post('/profile', async (req, res) => {
+    const { userId } = req.session;
+    let user = await User.findById(userId);
+    user.interests = req.body.profile;
+    user.save();
+    res.redirect('/profile');
+})
+
+app.get('/matches', async (req, res) => {
+    const { userId } = req.session;
+    if (userId) {
+        let user = await User.findById(userId);
+        matchByBirthday(user).then((allMatches) => {
+            allMatches.forEach(user => {
+                user.profilePic = base64Img.base64Sync(user.profilePic);
+            });
+            res.render('view-matches', {
+                matches: allMatches
+            })
+        })
+    }
+})
+
 
 app.get('/logout', (req, res) => {
     req.session.destroy(err => {

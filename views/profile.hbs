@@ -7,6 +7,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.26.0/slimselect.min.css" rel="stylesheet"></link>
+    <style>
+        body {
+            background: url("https://images.pexels.com/photos/207130/pexels-photo-207130.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+            background-size: cover;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -26,6 +33,9 @@
                     <li><a href="/">Home</a></li>
                     <li><a href="/about">About</a></li>
                     <li><a href="/chat">Chat</a></li>
+                    {{#if id}}
+                    <li><a href="/matches">My matches</a></li>
+                    {{/if}}
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                         <li><a href="/logout">Log out <i class="fas fa-sign-out-alt"></i></a></li>
@@ -37,7 +47,7 @@
         </div>
     </nav>
     <div class="container">
-        <div class="row">
+        <div class="row profile">
             <div class="col-xs-12 col-md-6">
                 <a href="#" class="thumbnail">
                     <img src = {{profilePic}}>
@@ -52,6 +62,19 @@
                 <div class="user-info"><strong>Username:</strong> {{username}}</div>
                 <div class="user-info"><strong>Email:</strong> {{email}}</div>
                 <div class="user-info"><strong>Birthday:</strong> {{birthday}}</div>
+                
+                <div class="user-info">
+                    {{#if interests.length}}
+                        <strong>Interests:</strong>
+                        {{#each interests}}
+                            <button class="btn btn-info">{{this}}</button>
+                        {{/each}}
+                    {{/if}}
+                    <div>
+                        <button onclick="displayForm(this)" class="btn btn-default"><i class="fas fa-user-edit"> Edit interests</i></button>
+                    </div>
+                </div>
+                <form id="edit" action="/profile" method="POST"></form>
             </div>
         </div>
     </div>
@@ -59,5 +82,30 @@
 {{!-- Set up font awesome kit --}}
 <script src="https://kit.fontawesome.com/27610e4d72.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.26.0/slimselect.min.js"></script>
+<script>
+    function displayForm(elem) {
+        elem.remove();
+        document.getElementById('edit').innerHTML = 
+        `<select id="multiple" name="profile" multiple>
+                <option value="Movies">Movies</option>
+                <option value="Books">Books</option>
+                <option value="TV">Television</option>
+                <option value="Music">Music</option>
+                <option value="Art">Art</option>
+                <option value="Painting">Painting</option>
+                <option value="Writing">Writing</option>
+                <option value="Gaming">Gaming</option>
+                <option value="Traveling">Traveling</option>
+                <option value="Sports">Sports</option>
+                <option value="Photography">Photography</option>
+        </select>
+        <div class="user-info"><button type="submit" class="btn btn-primary">Submit</button></div>`;
+
+        new SlimSelect({
+            select: '#multiple'
+        });
+    }
+</script>
 </body>
 </html>

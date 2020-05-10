@@ -26,6 +26,9 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/about">About</a></li>
                 <li class="active"><a href="/chat">Chat</a></li>
+                {{#if id}}
+                    <li><a href="/matches">My matches</a></li>
+                {{/if}}
             </ul>
             {{#if id}}
                 <ul class="nav navbar-nav navbar-right">
