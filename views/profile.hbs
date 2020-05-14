@@ -34,14 +34,18 @@
                     <li><a href="/about">About</a></li>
                     <li><a href="/chat">Chat</a></li>
                     {{#if id}}
-                    <li><a href="/matches">My matches</a></li>
+                     <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My matches <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/birthday-matches">By Birthday</a></li>
+                            <li><a href="/interests-matches">By Interests</a></li>
+                        </ul>
+                    </li>
                     {{/if}}
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                        <li class="active"><a href="/profile">Profile <i class="fas fa-user-edit"></i></a></li>
                         <li><a href="/logout">Log out <i class="fas fa-sign-out-alt"></i></a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="/profile">Profile <i class="fas fa-user-edit"></i></a></li>
                 </ul>
             </div>
         </div>
@@ -81,8 +85,9 @@
 
 {{!-- Set up font awesome kit --}}
 <script src="https://kit.fontawesome.com/27610e4d72.js" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.26.0/slimselect.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
 <script>
     function displayForm(elem) {
         elem.remove();
@@ -99,9 +104,6 @@
                 <option value="Traveling">Traveling</option>
                 <option value="Sports">Sports</option>
                 <option value="Photography">Photography</option>
-                <option value="movies">Movies</option>
-                <option value="books">Books</option>
-                <option value="tv">Television</option>
         </select>
         <div class="user-info"><button type="submit" class="btn btn-primary">Submit</button></div>`;
 
