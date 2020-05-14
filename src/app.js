@@ -178,7 +178,7 @@ app.post('/profile', async (req, res) => {
     res.redirect('/profile');
 })
 
-app.get('/matches', async (req, res) => {
+app.get('/birthday-matches', async (req, res) => {
     const { userId } = req.session;
     if (userId) {
         let user = await User.findById(userId);
@@ -186,20 +186,27 @@ app.get('/matches', async (req, res) => {
         matchesByBirthday.forEach(match => {
             match.profilePic = base64Img.base64Sync(match.profilePic);
         });
-        
-        matchByInterest(user, (error, result) => {
-            result.forEach(element => {
+        res.render('birthday-matches', {
+            matches: matchesByBirthday
+        })
+    }
+})
+
+app.get('/interests-matches', async (req, res) => {
+    const { userId } = req.session;
+    if (userId) {
+        let user = await User.findById(userId);
+        matchByInterest(user, (error, intMatches) => {
+            intMatches.forEach(element => {
                 element.profilePic = base64Img.base64Sync(element.profilePic);
                 element.interests = element.interests.slice(0, 3);
             });
-            res.render('view-matches', {
-                matches: matchesByBirthday,
-                intMatches: result
+            res.render('interests-matches', {
+                matches: intMatches
             })
         });
     }
 })
-
 
 app.get('/logout', (req, res) => {
     req.session.destroy(err => {
