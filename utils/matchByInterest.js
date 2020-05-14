@@ -16,27 +16,33 @@ const matchByInterest = async (user, interest) => {
     return result;
 }
 
-let madlen = {
-    interests: ['TV', 'Books']
-}
-
-const getCommonInterests = (user, callback) => {
-    let allMatches = [];
-    user.interests.forEach(async interest => {
-        matchByInterest(user, interest)
-        .then(match => {
-            allMatches.push(match);
-        })
-        .catch(err => callback(err, undefined));
+const getAll = (user, callback) => {
+    let matches = [];
+    user.interests.forEach(async (interest) => {
+        let match = await matchByInterest(user, interest);
+        matches.push(match);
     });
-
     setTimeout(() => {
-        return callback(undefined, allMatches);
+        let distinctMatches = [];
+        matches.forEach(element => {
+            element.forEach(e => {
+                distinctMatches.push(e);
+            });
+        });
+        
+        // Remove all duplicates user matched by interest if any
+        const result = Array.from(new Set(distinctMatches.map(s => s._id.toString())))
+                .map(id => {
+                    return {
+                        _id: id,
+                        username: distinctMatches.find(s => s.id === id).username,
+                        interests: distinctMatches.find(s => s.id === id).interests,
+                        birthday: distinctMatches.find(s => s.id === id).birthday,
+                        profilePic: distinctMatches.find(s => s.id === id).profilePic
+                    }
+                });
+        callback(undefined, result);
     }, 500);
 }
 
-// getCommonInterests(madlen, (err, res) => {
-//     console.log(res);
-// })
-
-module.exports = getCommonInterests;
+module.exports = getAll;
