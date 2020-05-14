@@ -38,7 +38,7 @@
                     <li><a href="/">Home</a></li>
                     <li><a href="/about">About</a></li>
                     <li><a href="/chat">Chat</a></li>
-                    <li class="active"><a href="/view-matches">My matches</a></li>
+                    <li class="active"><a href="/matches">My matches</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/logout">Log out <i class="fas fa-sign-out-alt"></i></a></li>
@@ -52,11 +52,11 @@
 
     <div class="container">
         <div class="row">
-        {{#if matches}}
-            {{#each matches}}
+            {{#if intMatches}}
+                {{#each intMatches}}
                     <div class="col-sm-6 col-md-3">
                         <div class="thumbnail" id="match">
-                            <img src={{this.profilePic}} alt="profile-pic"
+                            <img src={{this.profilePic}} alt="profile-pic">
                             <h2>{{this.username}}</h2>
                             {{#if this.interests.length}}
                             <div class="user-info">
@@ -71,8 +71,30 @@
                             </div>
                         </div>
                     </div>
-            {{/each}}
-        {{/if}}
+                {{/each}}
+            {{/if}}
+    
+            {{#if matches}}
+                {{#each matches}}
+                    <div class="col-sm-6 col-md-3">
+                        <div class="thumbnail" id="match">
+                            <img src={{this.profilePic}} alt="profile-pic">
+                            <h2>{{this.username}}</h2>
+                            {{#if this.interests.length}}
+                            <div class="user-info">
+                                {{#each this.interests}}
+                                        <button class="btn btn-info">{{this}}</button>      
+                                {{/each}}
+                            </div>
+                            {{/if}}
+                            <div class="user-info">
+                                <a href="#" class="btn btn-default" role="button"><i class="far fa-thumbs-up"></i></a>
+                                <a href="#" class="btn btn-primary" role="button">View profile</a>
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
+            {{/if}}
         </div>
     </div>
 

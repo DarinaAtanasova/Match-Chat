@@ -9,6 +9,7 @@ var base64Img = require('base64-img');
 const checkFileType = require('../utils/checkFileType.js');
 const formatMessage = require('../utils/formatMessage.js');
 const matchByBirthday = require('../utils/matchByBirthday');
+const matchByInterest = require('../utils/matchByInterest');
 
 require('../database/database');
 var User = require('../database/models/user.js');
@@ -181,14 +182,21 @@ app.get('/matches', async (req, res) => {
     const { userId } = req.session;
     if (userId) {
         let user = await User.findById(userId);
-        matchByBirthday(user).then((allMatches) => {
-            allMatches.forEach(user => {
-                user.profilePic = base64Img.base64Sync(user.profilePic);
+        let matchesByBirthday = await matchByBirthday(user);
+        matchesByBirthday.forEach(match => {
+            match.profilePic = base64Img.base64Sync(match.profilePic);
+        });
+        
+        matchByInterest(user, (error, result) => {
+            result.forEach(element => {
+                element.profilePic = base64Img.base64Sync(element.profilePic);
+                element.interests = element.interests.slice(0, 3);
             });
             res.render('view-matches', {
-                matches: allMatches
+                matches: matchesByBirthday,
+                intMatches: result
             })
-        })
+        });
     }
 })
 
