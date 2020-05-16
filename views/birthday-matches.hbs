@@ -58,7 +58,7 @@
 
     <div class="container">
         <div class="row">
-            {{#if matches}}
+            {{#if matches.length}}
                 {{#each matches}}
                     <div class="col-sm-6 col-md-3">
                         <div class="thumbnail" id="match">
@@ -72,8 +72,10 @@
                             </div>
                             {{/if}}
                             <div class="user-info">
-                                <a href="#" class="btn btn-default" role="button"><i class="far fa-thumbs-up"></i></a>
-                                <a href="#" class="btn btn-primary" role="button">View profile</a>
+                                <form action="/likes/{{this._id}}/0" method="POST">
+                                    <button type="submit" class="btn btn-default"><i class="far fa-thumbs-up"></i></button>
+                                    <a href="#" class="btn btn-primary" role="button">View profile</a>
+                                </form>
                             </div>
                         </div>
                     </div>
