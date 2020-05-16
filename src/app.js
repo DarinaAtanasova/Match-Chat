@@ -226,6 +226,19 @@ app.post('/likes/:id/:int_id', async (req, res) => {
     }
 })
 
+app.get('/view/profile/:username', async (req, res) => {
+    let viewUser = await User.findOne({username: req.params.username});
+    res.render('profile', {
+        id: viewUser._id,
+        username: viewUser.username,
+        email: viewUser.email,
+        birthday: moment(viewUser.birthday).format('DD-MM-YYYY'),
+        profilePic: base64Img.base64Sync(viewUser.profilePic),
+        interests: viewUser.interests,
+        view: 1
+    })
+})
+
 app.get('/logout', (req, res) => {
     req.session.destroy(err => {
         if (err) {
