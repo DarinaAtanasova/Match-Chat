@@ -34,7 +34,11 @@
                     <li><a href="/about">About</a></li>
                     <li><a href="/chat">Chat</a></li>
                     {{#if id}}
-                     <li class="dropdown">
+                    {{#if view}}
+                        <li class="active" class="dropdown">
+                    {{else}}
+                        <li class="dropdown">
+                    {{/if}}
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My matches <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="/birthday-matches">By Birthday</a></li>
@@ -44,8 +48,12 @@
                     {{/if}}
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    {{#unless view}}
                         <li class="active"><a href="/profile">Profile <i class="fas fa-user-edit"></i></a></li>
-                        <li><a href="/logout">Log out <i class="fas fa-sign-out-alt"></i></a></li>
+                    {{else}}
+                        <li><a href="/profile">Profile <i class="fas fa-user-edit"></i></a></li>
+                    {{/unless}}
+                    <li><a href="/logout">Log out <i class="fas fa-sign-out-alt"></i></a></li>
                 </ul>
             </div>
         </div>
