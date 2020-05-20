@@ -34,7 +34,11 @@
                     <li><a href="/about">About</a></li>
                     <li><a href="/chat">Chat</a></li>
                     {{#if id}}
-                     <li class="dropdown">
+                    {{#if view}}
+                        <li class="active" class="dropdown">
+                    {{else}}
+                        <li class="dropdown">
+                    {{/if}}
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My matches <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="/birthday-matches">By Birthday</a></li>
@@ -44,8 +48,12 @@
                     {{/if}}
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    {{#unless view}}
                         <li class="active"><a href="/profile">Profile <i class="fas fa-user-edit"></i></a></li>
-                        <li><a href="/logout">Log out <i class="fas fa-sign-out-alt"></i></a></li>
+                    {{else}}
+                        <li><a href="/profile">Profile <i class="fas fa-user-edit"></i></a></li>
+                    {{/unless}}
+                    <li><a href="/logout">Log out <i class="fas fa-sign-out-alt"></i></a></li>
                 </ul>
             </div>
         </div>
@@ -56,11 +64,13 @@
                 <a href="#" class="thumbnail">
                     <img src = {{profilePic}}>
                 </a>
-                <form action="/uploads" method="POST" enctype="multipart/form-data">
-                    <input type="file" name="profilePic">
-                    <br>
-                    <button type="submit" class="btn btn-primary">Upload pic</button>
-                </form>
+                {{#unless view}}
+                    <form action="/uploads" method="POST" enctype="multipart/form-data">
+                        <input type="file" name="profilePic">
+                        <br>
+                        <button type="submit" class="btn btn-primary">Upload pic</button>
+                    </form>
+                {{/unless}}
             </div>
             <div class="col-xs-12 col-md-6">
                 <div class="user-info"><strong>Username:</strong> {{username}}</div>
@@ -74,9 +84,11 @@
                             <button class="btn btn-info">{{this}}</button>
                         {{/each}}
                     {{/if}}
-                    <div>
-                        <button onclick="displayForm(this)" class="btn btn-default"><i class="fas fa-user-edit"> Edit interests</i></button>
-                    </div>
+                    {{#unless view}}
+                        <div>
+                            <button onclick="displayForm(this)" class="btn btn-default"><i class="fas fa-user-edit"> Edit interests</i></button>
+                        </div>
+                    {{/unless}}
                 </div>
                 <form id="edit" action="/profile" method="POST"></form>
             </div>

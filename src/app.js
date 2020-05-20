@@ -208,6 +208,37 @@ app.get('/interests-matches', async (req, res) => {
     }
 })
 
+app.post('/likes/:id/:int_id', async (req, res) => {
+    const { userId } = req.session;
+    if (userId) {
+        let user = await User.findById(userId);
+        let likedUser = await User.findById(req.params.id);
+        user.likedUsers.push(req.params.id);
+        likedUser.usersThatLikedMe.push(userId);
+        user.save().catch(() => console.log('You already liked that user!'));
+        likedUser.save().catch(() => console.log('Duplicate of that user found!'));
+    }
+
+    if (req.params.int_id == 1) {
+        res.redirect('/interests-matches');
+    } else {
+        res.redirect('/birthday-matches');
+    }
+})
+
+app.get('/view/profile/:username', async (req, res) => {
+    let viewUser = await User.findOne({username: req.params.username});
+    res.render('profile', {
+        id: viewUser._id,
+        username: viewUser.username,
+        email: viewUser.email,
+        birthday: moment(viewUser.birthday).format('DD-MM-YYYY'),
+        profilePic: base64Img.base64Sync(viewUser.profilePic),
+        interests: viewUser.interests,
+        view: 1
+    })
+})
+
 app.get('/logout', (req, res) => {
     req.session.destroy(err => {
         if (err) {
