@@ -3,22 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Birthday Matches</title>
+    <title>Chat with {{match.username}}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-
-    <style>
-        body {
-            background: url("https://images.pexels.com/photos/207130/pexels-photo-207130.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
-            background-size: cover;
-        }
-
-        .thumbnail {
-            background-color: rgba(255, 255, 255, 0.7);
-        }
-    </style>
-
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -57,36 +45,23 @@
     </nav>
 
     <div class="container">
-        <div class="row">
-            {{#if matches.length}}
-                {{#each matches}}
-                    <div class="col-sm-6 col-md-3">
-                        <div class="thumbnail" id="match">
-                            <img src={{this.profilePic}} alt="profile-pic">
-                            <h2>{{this.username}}</h2>
-                            {{#if this.interests.length}}
-                            <div class="user-info">
-                                {{#each this.interests}}
-                                        <button class="btn btn-info">{{this}}</button>      
-                                {{/each}}
-                            </div>
-                            {{/if}}
-                            <div class="user-info">
-                                <form class="form-profile" action="/likes/{{this._id}}/0" method="POST">
-                                    <button type="submit" class="btn btn-default"><i class="far fa-thumbs-up"></i></button>
-                                </form>
-                                <a href="view/profile/{{this.username}}" class="btn btn-primary" role="button">View profile</a>
-                                <a href="dm/{{this._id}}"  role="button" class="btn btn-primary"><i class="far fa-comment-dots"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                {{/each}}
-            {{/if}}
+        <h1>{{match.username}}, hello!</h1>
+        <div class="dm-user">
+            <div class="chat-window">
+                <div class="dms">
+                    
+                </div>
+            </div>
+            <form class="chat-form">
+                <input id="dm" type="text" placeholder="Enter message">
+                <button id="sendBtn" class="btn btn-info">Send <i class="far fa-paper-plane"></i></button>
+            </form>
         </div>
     </div>
 
-<script src="https://kit.fontawesome.com/27610e4d72.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/client.js"></script>
 </body>
 </html>

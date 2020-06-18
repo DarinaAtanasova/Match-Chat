@@ -10,6 +10,7 @@ const checkFileType = require('../utils/checkFileType.js');
 const formatMessage = require('../utils/formatMessage.js');
 const matchByBirthday = require('../utils/matchByBirthday');
 const matchByInterest = require('../utils/matchByInterest');
+const getUserId = require('../utils/getUserId');
 
 require('../database/database');
 var User = require('../database/models/user.js');
@@ -239,6 +240,13 @@ app.get('/view/profile/:username', async (req, res) => {
     })
 })
 
+app.get('/dm/:id', async (req, res) => {
+    const { userId } = req.session;
+    let sender = await User.findById(userId);
+    let match = await User.findById(req.params.id);
+    res.render('dm', { sender: sender, match: match });
+})
+
 app.get('/logout', (req, res) => {
     req.session.destroy(err => {
         if (err) {
@@ -269,7 +277,7 @@ app.get('/chat', async (req, res) => {
 })
 
 io.on('connection', socket => {
-    socket.username = name
+    socket.username = name;
     socket.emit('message', formatMessage("!Bugs Bunny", 'Welcome!'));
     
     socket.broadcast.emit('message', formatMessage("!Bugs Bunny",'User has joined!'));
@@ -282,6 +290,10 @@ io.on('connection', socket => {
         io.emit('message', formatMessage("!Bugs Bunny", "User has disconnected"));
     })
     
+})
+
+io.on('connect', socket => {
+    console.log(socket.id);
 })
 
 server.listen(PORT, () => console.log('Server started on port ' + PORT));
