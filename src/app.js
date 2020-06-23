@@ -10,6 +10,8 @@ const checkFileType = require('../utils/checkFileType.js');
 const formatMessage = require('../utils/formatMessage.js');
 const matchByBirthday = require('../utils/matchByBirthday');
 const matchByInterest = require('../utils/matchByInterest');
+const getUserId = require('../utils/getUserId');
+const {userJoin, getCurrentUser, userLeave, getRoomUsers} = require('../utils/activeUsers');
 
 require('../database/database');
 var User = require('../database/models/user.js');
@@ -56,10 +58,11 @@ app.use(session({
 app.set('view engine', 'hbs');
 app.set('views', viewsPath);
 
-app.get('/', (req, res) => {
+app.get('/', async(req, res) => {
     const { userId } = req.session;
+    let user = await User.findById(userId);
     if (userId) {
-        res.render('index', { id: userId });
+        res.render('index', { id: userId, user:user });
     }
     else
     {
@@ -67,10 +70,11 @@ app.get('/', (req, res) => {
     }
 })
 
-app.get('/about',(req, res) => {
+app.get('/about', async(req, res) => {
     const { userId } = req.session;
+    let user = await User.findById(userId);
     if (userId) {
-        res.render('about', { id: userId });
+        res.render('about', { id: userId, user: user });
     }
     else
     {
@@ -164,7 +168,8 @@ app.get('/profile', async (req, res) => {
             email: user.email,
             birthday: moment(user.birthday).format('DD-MM-YYYY'),
             profilePic: base64Img.base64Sync(user.profilePic),
-            interests: user.interests
+            interests: user.interests,
+            user: user
         });
     }
     
@@ -187,7 +192,8 @@ app.get('/birthday-matches', async (req, res) => {
             match.profilePic = base64Img.base64Sync(match.profilePic);
         });
         res.render('birthday-matches', {
-            matches: matchesByBirthday
+            matches: matchesByBirthday,
+            user: user
         })
     }
 })
@@ -202,7 +208,8 @@ app.get('/interests-matches', async (req, res) => {
                 element.interests = element.interests.slice(0, 3);
             });
             res.render('interests-matches', {
-                matches: intMatches
+                matches: intMatches,
+                user: user
             })
         });
     }
@@ -239,6 +246,17 @@ app.get('/view/profile/:username', async (req, res) => {
     })
 })
 
+var name = "";
+
+app.get('/chatRooms', async(req, res) => {
+    const { userId } = req.session;
+    if (userId) {
+        var user = await User.findById(userId);
+        name = user.username;
+        res.render('chatRoom', {interest: req.query.room, user: user});
+    }
+})
+
 app.get('/logout', (req, res) => {
     req.session.destroy(err => {
         if (err) {
@@ -252,14 +270,13 @@ app.get('/logout', (req, res) => {
     })
 })
 
-var name = "";
 
 app.get('/chat', async (req, res) => {
     const { userId } = req.session;
     if (userId) {
         var user = await User.findById(userId);
         name = user.username;
-        res.render('chat', { id: userId });
+        res.render('chat', { id: userId, user: user});
     }
     else
     {
@@ -268,20 +285,48 @@ app.get('/chat', async (req, res) => {
 
 })
 
+// io.on('connection', socket => {
+//     // socket.username = name;
+    
+//     socket.emit('message', formatMessage("!Bugs Bunny", 'Welcome!'));
+        
+//     socket.broadcast.emit('message', formatMessage("!Bugs Bunny",'User has joined!'));
+
+//     socket.on('chatMessage', message => {
+//         io.emit('message', formatMessage(socket.username, message));
+//     })
+
+//     socket.on('disconnect', () => {
+//         io.emit('message', formatMessage("!Bugs Bunny", "User has disconnected"));
+//     })
+
+// })
+
+
 io.on('connection', socket => {
-    socket.username = name
-    socket.emit('message', formatMessage("!Bugs Bunny", 'Welcome!'));
+    socket.username = name;
     
-    socket.broadcast.emit('message', formatMessage("!Bugs Bunny",'User has joined!'));
+    socket.on('joinRoom', ({room}) => {
+        const user = userJoin(socket.id, socket.username, room);
     
+        socket.join(room);
+        socket.emit('message', formatMessage("!Bugs Bunny", 'Welcome!'));  
+        socket.broadcast.to(user.room).emit('message', formatMessage("!Bugs Bunny",`${user.username} has joined!`));
+    })
+
     socket.on('chatMessage', message => {
-        io.emit('message', formatMessage(socket.username, message));
+        const user = getCurrentUser(socket.id);
+        io.to(user.room).emit('message', formatMessage(user.username, message));
     })
 
     socket.on('disconnect', () => {
-        io.emit('message', formatMessage("!Bugs Bunny", "User has disconnected"));
+        const user = userLeave(socket.id);
+
+        if (user) {
+            io.to(user.room).emit('message', formatMessage("!Bugs Bunny", `${socket.username} has left the chat!`));
+        }
     })
-    
+
 })
 
 server.listen(PORT, () => console.log('Server started on port ' + PORT));

@@ -34,6 +34,16 @@
                             <li><a href="interests-matches">By Interests</a></li>
                         </ul>
                     </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Chat rooms <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            {{#if user.interests.length}}
+                                {{#each user.interests}}
+                                    <li><a href="chatRooms?room={{this}}">{{this}}</a></li>
+                                {{/each}}
+                            {{/if}}
+                        </ul>
+                    </li>
                 {{/if}}
             </ul>
             
@@ -61,6 +71,7 @@
 {{!-- Set up font awesome kit --}}
 <script src="https://kit.fontawesome.com/27610e4d72.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.4/qs.min.js" integrity="sha256-ijqLssetA1NMNjZ+w1zaUafQQLm4IW5OoM8O+4tatME=" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
 </body>
 </html>
