@@ -32,5 +32,5 @@ npm run dev
 
 ### Creators
 
-[Madlen Sarkisian](https://github.com/Maddie02)
+[Madlen Sarkisian](https://github.com/Maddie02) \
 [Darina Atanasova](https://github.com/DarinaAtanasova)
