@@ -76,15 +76,32 @@ body {
     overflow: auto;
 }
 
+input.inputMessage:focus {
+    outline-width: 0;
+}
+
 #message {
     padding: 10px 20px;
     box-sizing: border-box;
     background: #eee;
-    border: 0;
     display: block;
     width: 100%;
-    border-bottom: 1px solid #eee;
+    border: 1px solid #eee;
     font-size: 16px;
+    border-radius: 20px;
+    margin-right: 2px;
+}
+
+.dm-user {
+    background: rgb(28, 58, 107);
+    padding: 30px;
+    margin: 0 auto;
+    border-radius: 10px;
+    color: white;
+    font-size: 17px;
+    max-width: 80%;
+    height: auto;
+    box-sizing: border-box;
 }
 
 #dm {
@@ -110,10 +127,6 @@ body {
     padding: 12px 0;
     width: 100%;
     border-radius: 0 0 2px 2px;
-}
-
-.dm-user {
-    border: 1px solid black;
 }
 
 .chat-form {
