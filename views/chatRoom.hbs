@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{interest}} chat room</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/styles.css">
+    {{!-- <link rel="stylesheet" href="/css/styles.css"> --}}
+    <link rel="stylesheet" href="/css/chat_styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -54,21 +55,29 @@
         </div>
     </nav>
 
-    <div class="container">
-        <h1>{{interest}}</h1>
-        <div class="dm-user">
-            <div class="chat-window">
-                <div class="chat-messages">
-                    
-                </div>
+    <div class="chat">
+        <div class="chat__sidebar">
+            <h2>{{interest}}</h2>
+            <div class="admin-notifications"></div>
+        </div>
+        <div class="chat__main">
+            <div class="chat-messages"></div>
+            <div class="compose">
+                <form class="chat-form">
+                    <input class="inputMessage" id="message" type="text" placeholder="Enter message" autocomplete="off">
+                    <button id="sendBtn" class="btn btn-primary">Send <i class="far fa-paper-plane"></i></button>
+                </form>
             </div>
-            <form class="chat-form">
-                <input id="message" type="text" placeholder="Enter message">
-                <button id="sendBtn" class="btn btn-info">Send <i class="far fa-paper-plane"></i></button>
-            </form>
         </div>
     </div>
 
+
+<script>
+    function returnCurrentUsername() {
+        let username = `{{user.username}}`;
+        return username;
+    }
+</script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.4/qs.min.js" integrity="sha256-ijqLssetA1NMNjZ+w1zaUafQQLm4IW5OoM8O+4tatME=" crossorigin="anonymous"></script>
