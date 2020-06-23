@@ -34,6 +34,16 @@
                             <li><a href="/interests-matches">By Interests</a></li>
                         </ul>
                     </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Chat rooms <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            {{#if user.interests.length}}
+                                {{#each user.interests}}
+                                    <li><a href="chatRooms?room={{this}}">{{this}}</a></li>
+                                {{/each}}
+                            {{/if}}
+                        </ul>
+                    </li>
                 {{/if}}
             </ul>
             {{#if id}}
